@@ -49,13 +49,15 @@
 					<section>
 						<h2>OECD Worlwide Migrations</h2>
 					</section>
+
 					<section>
 						<h2>Database Source</h2>
 						<a href="https://stats.oecd.org/viewhtml.aspx?datasetcode=MIG&lang=en">
 							<img src="images/oecd_db.png" />
 						</a>
 					</section>
-						<section>
+
+					<section>
 						<h2>Database Description</h2>
 						<ul>
 							<li>Contains data about population migrations in different countries of the OECD from 2000 to 2017.</li>
@@ -67,17 +69,19 @@
 							<li><b>COU/Country</b>: Country where migration is happening</li>
 						</ul>
 					</section>
+
 					<section>
 						<h2>Database Description</h2>
 						<p><b>VAR/Variable</b>: specifies the type of Value	</p>
 						<ul>
-							<li><b>B11</b>: Inflows of foreign population by nationality</li>
-							<li><b>B12</b>: Outflows of foreign population by nationality</li>
+							<li><b>B11</b>: Inflows of foreign population by nationality (Immigration)</li>
+							<li><b>B12</b>: Outflows of foreign population by nationality (Emmigration)</li>
 							<li><b>B13</b>: Inflows of asylum seekers by nationality</li>
 							<li><b>B16</b>: Acquisition of nationality by country of former nationality</li>
 						</ul>
 						<a href="http://www.oecd.org/els/mig/Annex-EN.pdf">PDF Description</a>
 					</section>
+
 					<section>
 						<h2>Database Description</h2>
 						<ul>
@@ -88,20 +92,81 @@
 						</ul>
 						<a href="http://www.oecd.org/els/mig/Annex-EN.pdf">PDF Description</a>
 					</section>
+
+					<section>
+						<h2>Source Code</h2>
+						<p>The source code explained here can be found in the following file:</p>
+						<a href="r/analisis_migrations.R">analisis_migrations.r</a>
+					</section>
+
+					<section>
+						<h2>Loading the Database into R</h2>
+						<p>Reading the migrations.csv database.</p>
+						<pre><code class="r">
+migraciones <- read.csv("migrations.csv")
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Loading the Dplyr library into R</h2>
+						<p>Reading the migrations.csv database.</p>
+						<pre><code class="r">
+library(dplyr)
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Which are the different values of the <b>VAR/Variable</b> column?</h2>
+						<img src="images/migraciones_1.png" />
+					</section>
+
+					<section>
+						<h2>Which are the different nationalities that are taken into account?</h2>
+						<img src="images/migraciones_2.png" />
+					</section>
+
+					<section>
+						<h2>Which are the different countries that register their migrations?</h2>
+						<img src="images/migraciones_3.png" />
+					</section>
+
+					<section>
+						<h2>Which years are taken into consideration?</h2>
+						<img src="images/migraciones_4.png" />
+					</section>
+
+					<section>
+						<h2>Which are the immigration statistics for Colombia in 2016?</h2>
+						<img src="images/migraciones_5.1.png" />
+						<p>Colombia didn't send any information.</p>
+					</section>
+
+					<section>
+						<h4>Which are the immigration statistics for colombians worlwide in 2016?</h4>
+						<img src="images/migraciones_5.2.png" />
+					</section>
+
+					<section>
+						<h4>Which are the emmigration statistics for colombians worlwide in 2017?</h4>
+						<img src="images/migraciones_6.png" />
+					</section>
+
+					<section>
+						<h4>Which were the top 6 countries with more emmigrations in 2008?</h4>
+						<img src="images/migraciones_7.png" />
+					</section>
+
+					<section>
+						<h4>Which were the top 6 countries with less emmigrations in 2010?</h4>
+						<img src="images/migraciones_8.png" />
+					</section>
+
 				</section>
 
 				<section>
 					<section>
 						<h2>Amsterdam AirBnB</h2>
 						<p>Slides can be nested inside of each other.</p>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p></p>
 					</section>
 				</section>
 
