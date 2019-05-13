@@ -31,7 +31,7 @@ arriendos %>%
 # 3. ¿Cuales son los 5 arrendatarios con más anuncios de arriendo?
 arriendos %>%
   group_by(host_name) %>%
-  summarise(arrendatario = host_name[1], cantidad = length(host_name)) %>%
+  summarise(cantidad = length(host_name)) %>%
   arrange(desc(cantidad)) %>%
   top_n(5)
 
@@ -41,21 +41,12 @@ arriendos %>%
   select(host_name, maximum_nights) %>%
   top_n(5)
 
-# 5. ¿Cuales son los nombres y urls de los 5 arriendos más costosos por noche?
+# 5. ¿Cualdes son los nombres y urls de los 5 arriendos más costosos por noche?
 arriendos %>%
   mutate( precio = as.numeric(substr(as.character(price), 2, 10))) %>% 
   arrange(desc(precio)) %>%
   select(precio, price, name, listing_url, host_name) %>%
   top_n(5, precio)
-
-# ¿Por qué salen más de 5? Porque hay empates en los precios y según
-# la documentación de la funciín top_n: Will include more than n rows if there are ties.
-# Para extraer los 5 primeros podemos usar la función head
-head(arriendos %>%
-       mutate( precio = as.numeric(substr(as.character(price), 2, 10))) %>% 
-       arrange(desc(precio)) %>%
-       select(precio, price, name, listing_url, host_name), 5)
-
 
 # 6. ¿Cuales son los 3 barrios con mayor cantidad de arriendos?
 arriendos %>%
@@ -71,7 +62,7 @@ arriendos %>%
   select(listing_url, bathrooms) %>%
   top_n(5)
 
-# ¿Qué arriendos tienen menor más camas?
+# ¿Qué arriendos tienen mayor más camas?
 arriendos %>%
   arrange(desc(beds)) %>%
   select(listing_url, beds) %>%
