@@ -74,7 +74,7 @@ arriendos %>%
   arrange(desc(square_feet)) %>%
   select(square_feet, listing_url,price)
 
-# 9. ¿Cuales son los arrendatarios con peor calificación en cuanto a la comunicaciín?
+# 9. ¿Cuales son los arrendatarios con peor calificación en cuanto a la comunicación?
 arriendos %>%
   filter(review_scores_communication < 4) %>%
   select(host_name, review_scores_communication) %>%
