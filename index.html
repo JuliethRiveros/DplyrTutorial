@@ -47,7 +47,7 @@
 
 				<section>
 					<section>
-						<h2>OECD Worlwide Migrations</h2>
+						<h1>OECD Worlwide Migrations</h1>
 					</section>
 
 					<section>
@@ -55,6 +55,11 @@
 						<a href="https://stats.oecd.org/viewhtml.aspx?datasetcode=MIG&lang=en">
 							<img src="images/oecd_db.png" />
 						</a>
+					</section>
+
+					<section>
+						<h2>Database</h2>
+						<img src="images/migrations_db.png" />
 					</section>
 
 					<section>
@@ -180,16 +185,88 @@ library(dplyr)
 
 				<section>
 					<section>
-						<h2>Amsterdam AirBnB</h2>
-						<p>Slides can be nested inside of each other.</p>
+						<h1>Amsterdam AirBnB</h1>
 					</section>
+
+					<section>
+						<h2>Database Source</h2>
+						<a href="http://insideairbnb.com/get-the-data.html">
+							<img width="80%" src="http://insideairbnb.com/images/insideairbnb_graphic_site_1200px.png" />
+						</a>
+					</section>
+
+					<section>
+						<h2>Database</h2>
+						<img src="images/air_db.png" />
+					</section>
+
+					<section>
+						<h2>Database Description</h2>
+						<ul>
+							<li>Contains data about all the AirBnB listings in Amsterdam that were available in 06 May, 2019.</li>
+							<ul>
+								<li>Columns: 106</li>
+								<li>Rows: 19'619</li>
+							</ul>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Database Columns</h2>
+						<img src="images/air_columns.png" />
+					</section>
+
+					<section>
+						<h2>Source Code</h2>
+						<p>The source code explained here can be found in the following file:</p>
+						<a href="r/analisis_airbnb.r">analisis_airbnb.r</a>
+					</section>
+
+					<section>
+						<h2>Loading the Database into R</h2>
+						<p>Reading the migrations.csv database.</p>
+						<pre><code class="r">
+arriendos <- read.csv("data/amsterdam_airbnb.csv")
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Loading the Dplyr library into R</h2>
+						<p>Reading the migrations.csv database.</p>
+						<pre><code class="r">
+library(dplyr)
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Which are the different license types?</h2>
+						<img src="images/air_1.png" />
+					</section>
+
+					<section>
+						<h2>Which are the different cancellation policies?</h2>
+						<img src="images/air_1.2.png" />
+					</section>
+
+					<section>
+						<h2>In which cities are the hosts located?</h2>
+						<img src="images/air_1.3.png" />
+					</section>
+
+					<section>
+						<h2>In which neighbourhoods are there listings?</h2>
+						<img src="images/air_1.4.png" />
+					</section>
+
 				</section>
 
 				<section>
 					<section>
 						<h1>References</h1>
 						<ul>
-							<li><a href="https://dplyr.tidyverse.org/">dplyr</a></li>	
+							<li><a href="https://dplyr.tidyverse.org/">dplyr</a></li>
+							<li><a href="https://stats.oecd.org">OECD Stats</a></li>	
+							<li><a href="http://insideairbnb.com/get-the-data.html">AirBnB Data</a></li>
 						</ul>
 					</section>	
 				</section>
