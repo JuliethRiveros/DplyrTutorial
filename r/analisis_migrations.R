@@ -67,8 +67,6 @@ migraciones %>%
   arrange(desc(Value))
 
 # 7. ¿Cuales son los 6 países con más emigraciones durante el 2008?
-# Estas son dos formas de hacerlo que en teoría deberían dar los mismos resultados,
-# sin embargo aunque son parecidos no son iguales.
 migraciones %>% 
   filter(Country.of.birth.nationality != "Total") %>%    # quitar los totales
   filter(VAR == "B12") %>%    # filtrar emigraciones
@@ -79,41 +77,30 @@ migraciones %>%
   top_n(6, Emigraciones)      # obtiene los 6 más
 
 # 8. ¿Cuales son los 6 países con menos emigraciones durante el 2010?
-# Estas son dos formas de hacerlo que en teoría deberían dar los mismos resultados,
-# sin embargo aunque son parecidos no son iguales.
-migraciones %>% 
-  filter(CO2 != "TOT") %>%   # quitar los totales
-  filter(VAR == "B12") %>%   # filtrar emigraciones
-  filter(Year == 2010) %>%   # filtrar por 2010
-  group_by(COU) %>%          # argupo por pais
+head(migraciones %>% 
+  filter(COU != "TOT") %>%
+  filter(VAR == "B12") %>%
+  filter(Year == 2010) %>%
+  group_by(COU) %>%
   summarise(Pais = Country[1], Emigraciones = sum(Value)) %>%
-  arrange(Emigraciones) %>% 
-  top_n(-6)
-
-migraciones %>% 
-  filter(CO2 == "TOT") %>%   # quitar los totales
-  filter(VAR == "B12") %>%   # filtrar emigraciones
-  filter(Year == 2010) %>%   # filtrar por 2010
-  select(Country, Value) %>%
-  arrange(Value) %>% 
-  top_n(-6)
+  arrange(Emigraciones), 6)
 
 # 9. ¿Cuales son las 5 nacionalidades de las personas que más emigraron en el mundo en el año 2016?
 migraciones %>% 
-  filter(CO2 != "TOT") %>%
+  filter(Country.of.birth.nationality != "Total") %>%
   filter(Year == 2016) %>%
-  filter(VAR == "B11") %>%
-  group_by(CO2) %>%
+  filter(VAR == "B12") %>%
+  group_by(Country.of.birth.nationality) %>%
   summarise(Nacionalidad = Country.of.birth.nationality[1], Emigraciones = sum(Value)) %>%
   arrange(desc(Emigraciones)) %>%
   top_n(5)
 
 # 10. ¿Cuales son las 5 nacionalidades de las personas que más inmigraron en el mundo en el año 2016?
 migraciones %>% 
-  filter(CO2 != "TOT") %>%
+  filter(Country.of.birth.nationality != "Total") %>%
   filter(Year == 2016) %>%
-  filter(VAR == "B12") %>%
-  group_by(CO2) %>%
+  filter(VAR == "B11") %>%
+  group_by(Country.of.birth.nationality) %>%
   summarise(Nacionalidad = Country.of.birth.nationality[1], Inmigraciones = sum(Value)) %>%
   arrange(desc(Inmigraciones)) %>%
   top_n(5)
@@ -121,9 +108,16 @@ migraciones %>%
 # 11. ¿Cuantos Colombianos nacieron en USA en el 2017?
 migraciones %>% 
   filter(VAR == "B14") %>% 
-  filter(CO2 == "COL") %>% 
+  filter(Country.of.birth.nationality == "Colombia") %>% 
   filter(COU == "USA") %>%
   filter(Year == 2017) %>%
   select(Country.of.birth.nationality, Country, Year, Value)
 
-# 12. ¿Cuales son las nacionalidades originales de los bebÃ©s extranjeros que nacen en Alemania?
+# 12. ¿Cuales son las nacionalidades originales de los bebés extranjeros que nacen en Alemania en 2015?
+migraciones %>%
+  filter(VAR =="B14") %>%
+  filter(Country.of.birth.nationality != "Total") %>%
+  filter(Country == "Germany") %>%
+  filter(Year == 2015) %>%
+  select(Country.of.birth.nationality,Year,Value) %>%
+  arrange(desc(Value))
