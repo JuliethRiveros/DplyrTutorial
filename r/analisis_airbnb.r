@@ -2,7 +2,7 @@
 # Fuente: http://insideairbnb.com/get-the-data.html
 # Archivo: 	listings.csv.gz
 # Descripción: Detailed Listings data for Amsterdam
-arriendos <- read.csv("amsterdam_airbnb.csv")
+arriendos <- read.csv("data/amsterdam_airbnb.csv")
 
 # funciones a usar: 
 # visualizacion: head + str + plot + 
