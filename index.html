@@ -74,6 +74,8 @@
 							</ul>
 							<li><b>CO2/Country.of.birth.nationality</b>: Nationallity of the people moving</li>
 							<li><b>COU/Country</b>: Country where migration is happening</li>
+							<li><b>Year</b>: The year asociated to the value</li>
+
 						</ul>
 					</section>
 
@@ -96,6 +98,7 @@
 							<li><b>B15</b>: Stock of foreign population by nationality</li>
 							<li><b>B23</b>: Stock of foreign-born labour by country of birth</li>
 							<li><b>B24</b>: Stock of foreign labour by nationality</li>
+							<li><b>Value</b>: The value associated to the variable</li>
 						</ul>
 						<a href="http://www.oecd.org/els/mig/Annex-EN.pdf">PDF Description</a>
 					</section>
@@ -216,6 +219,42 @@ library(dplyr)
 					<section>
 						<h2>Database Columns</h2>
 						<img src="images/air_columns.png" />
+					</section>
+
+					<section>
+						<h2>Database Columns</h2>
+						<table>
+							<thead>
+								<th>Name</th><th>Meaning</th><th>Example</th>
+							</thead>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">listing_url</b></td><td>URL where the listing is published</td><td><a href="https://www.airbnb.com/rooms/2818">https://www.airbnb.com/rooms/2818</a></td>
+							</tr>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">host_name</b></td><td>Name of the host</td><td>Cristian</td>
+							</tr>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">neighbourhood</b></td><td>Name of the neighbourhood</td><td>Jordaan</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h2>Database Columns</h2>
+						<table>
+							<thead>
+								<th>Name</th><th>Meaning</th><th>Example</th>
+							</thead>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">beds</b></td><td>Number of beds</td><td>4</td>
+							</tr>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">price</b></td><td>Price (as an R factor)</td><td>$184.00</td>
+							</tr>
+							<tr class="fragment">
+								<td><b style="color: #ff6666">amenities</b></td><td>What you will find in the room</td><td>{TV, Wifi, Pets}</td>
+							</tr>
+						</table>
 					</section>
 
 					<section>
