@@ -1,5 +1,5 @@
-cities <- data.frame("id" = 1:5,
-                     "name" = c("Paris","Tokyo", "Bogotá", "Barcelona", "New York"))
+  cities <- data.frame("id" = 1:5,
+                       "name" = c("Paris","Tokyo", "Bogotá", "Barcelona", "New York"))
 
 persons <- data.frame("id" = 1:4,
                       name = c("Cristian", "Jean", "Hikimura", "Steven"),

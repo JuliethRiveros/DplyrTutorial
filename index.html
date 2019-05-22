@@ -353,37 +353,109 @@ library(dplyr)
 
 					<section>
 						<h2>Simple Table Examples</h2>
+						<p>Join functions are part of the <b>dplyr</b> library.</p>
 						<ul>
 							<li>Cities</li>
 							<li>Persons</li>
 						</ul>
+						<p>The source code explained here can be found in the following file:</p>
+						<a href="r/joins_explained.r">joins_explained.r</a>
 					</section>
 
 					<section>
 						<h2>Cities</h2>
-						
+						<pre><code class="r" data-line-numbers>
+> cities <- data.frame("id" = 1:5,
+		"name" = c("Paris","Tokyo", "Bogotá", "Barcelona", "New York"))
+> cities
+  id      name
+1  1     Paris
+2  2     Tokyo
+3  3    Bogotá
+4  4 Barcelona
+5  5  New York
+						</code></pre>
 					</section>
 
 					<section>
 						<h2>Persons</h2>
-						
+						<pre><code class="r" data-line-numbers>
+> persons <- data.frame("id" = 1:4,
+  	name = c("Cristian", "Jean", "Hikimura", "Steven"),
+  	id_cities = c(3, 1, 2, 5))
+> persons
+  id     name id_cities
+1  1 Cristian         3
+2  2     Jean         1
+3  3 Hikimura         2
+4  4   Steven         5
+						</code></pre>
 					</section>
 
 					<section>
 						<h2>Inner Join</h2>
+						<pre><code class="r" data-line-numbers>
+> inner_join(cities, persons, by=c("id" = "id_cities"))
+  id   name.x id.y   name.y
+1  1    Paris    2     Jean
+2  2    Tokyo    3 Hikimura
+3  3   Bogotá    1 Cristian
+4  5 New York    4   Steven
+						</code></pre>
 					</section>
 
 					<section>
 						<h2>Left Join</h2>
+						<pre><code class="r" data-line-numbers>
+> left_join(cities, persons, by=c("id" = "id_cities"))
+  id    name.x id.y   name.y
+1  1     Paris    2     Jean
+2  2     Tokyo    3 Hikimura
+3  3    Bogotá    1 Cristian
+4  4 Barcelona   NA     &lt;NA&gt;
+5  5  New York    4   Steven
+						</code></pre>
 					</section>
 
 					<section>
 						<h2>Right Join</h2>
+						<pre><code class="r" data-line-numbers>
+> right_join(persons, cities, by=c("id_cities" = "id"))
+  id   name.x id_cities    name.y
+1  2     Jean         1     Paris
+2  3 Hikimura         2     Tokyo
+3  1 Cristian         3    Bogotá
+4 NA     &lt;NA&gt;         4 Barcelona
+5  4   Steven         5  New York
+						</code></pre>
 					</section>
 
 					<section>
 						<h2>Full Join</h2>
+						<pre><code class="r" data-line-numbers>
+> full_join(persons, cities, by=c("id_cities" = "id"))
+  id   name.x id_cities    name.y
+1  1 Cristian         3    Bogotá
+2  2     Jean         1     Paris
+3  3 Hikimura         2     Tokyo
+4  4   Steven         5  New York
+5 NA     &lt;NA&gt;         4 Barcelona
+						</code></pre>
 					</section>
+
+					<section>
+						<h2>Full Join</h2>
+						<pre><code class="r" data-line-numbers>
+> full_join(cities, persons, by=c("id" = "id_cities"))
+  id    name.x id.y   name.y
+1  1     Paris    2     Jean
+2  2     Tokyo    3 Hikimura
+3  3    Bogotá    1 Cristian
+4  4 Barcelona   NA     &lt;NA&gt;
+5  5  New York    4   Steven
+						</code></pre>
+					</section>
+
 				</section>
 
 				<section>
