@@ -8,7 +8,7 @@ persons <- data.frame("id" = 1:4,
 # import dplyr
 library(dplyr)
 
-# inner_join
+# inner_join  
 inner_join(cities, persons, by=c("id" = "id_cities"))
 left_join(cities, persons, by=c("id" = "id_cities"))
 right_join(persons, cities, by=c("id_cities" = "id"))
