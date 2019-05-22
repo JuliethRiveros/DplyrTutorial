@@ -464,8 +464,226 @@ library(dplyr)
 					</section>	
 
 					<section>
-						<h2>Join Migraciones y AirBNB</h2>
-					</section>	
+						<h2>First Try</h2>
+						<ul>
+							<li>Try to join by Country</li>
+							<ul>
+								<li>AirBNB: host_location</li>
+								<li>Migrations: Country.of.birth.nationality</li>
+							</ul>
+						</ul>
+						<a href="r/airbnb_migrations_joined.r">airbnb_migrations_joined.r</a>
+					</section>
+
+					<section>
+						<h2>Adding a Country Column to the AirBNB table</h2>
+						<pre><code class="r" data-line-numbers>
+arriendos_filtrados1 <- arriendos %>%
+  mutate(Country = extractCountry(host_location)) %>%
+  select(host_name, Country)
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Adding a Country Column to the AirBNB table</h2>
+						<pre><code class="r" data-line-numbers>
+extractCountry <- function(l) {
+  l <- sapply(l, as.character, USE.NAMES = FALSE)
+  l <- sapply(l, strsplit, ",", USE.NAMES = FALSE)
+  l <- sapply(l, tail, n = 1L, USE.NAMES = FALSE)
+  l <- sapply(l, trimws, USE.NAMES = FALSE)
+  return(l)
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Error joining List and Factor</h2>
+						<pre><code class="r" data-line-numbers>
+> arriendos_filtrados1 %>%
+  inner_join(migraciones, by=c("Country"="Country.of.birth.nationality"))
+Error: Can't join on 'Country' x'Country.of.birth.nationality'
+because of incompatible types (list / factor)
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Error joining List and List</h2>
+						<pre><code class="r" data-line-numbers>
+> migraciones %>%
+   mutate(CountryList = as.list(sapply(migraciones$Country.of.birth.nationality, as.character)))
+
+> arriendos_filtrados1 %>%
+   inner_join(migraciones_filtradas, by=c("Country"="CountryList"))
+Error: Can't join on 'Country' x 'CountryList'
+because of incompatible types (list / list)
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Second Try</h2>
+						<ul>
+							<li>Try to join by Country Hash</li>
+							<ul>
+								<li>AirBNB: create a number hash from country</li>
+								<li>Migrations: create a number hash from Country.of.birth.nationality</li>
+							</ul>
+						</ul>
+						<a href="r/airbnb_migrations_joined_2.r">airbnb_migrations_joined_2.r</a>
+					</section>
+
+					<section>
+						<h2>Hash Function?</h2>
+						<p>A hash function is a function that maps data of arbitrary size onto data of a fixed size. This is usually represented in hexadecimal. We convert from hexadecimal to decimal to work with numbers and be able to join.</p>
+						<ul>
+							<li>md5</li>
+							<li>sha - sha256 - sha512</li>
+							<li>crc32</li>
+							<li>xxhash32 - xxhash64</li>
+							<li>murmur32</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Loading tables and libraries</h2>
+						<pre><code class="r" data-line-numbers>
+# loading both tables
+arriendos <- read.csv("data/amsterdam_airbnb.csv")
+migraciones <- read.csv("data/migrations.csv")
+
+# loading dplyr library
+library(dplyr)
+library(digest)
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>countryToHash function</h2>
+						<pre><code class="r" data-line-numbers>
+countryToHash <- function(c) {
+  c <- sapply(c, as.character)
+  c <- sapply(c, digest, algo="xxhash32")
+  c <- sapply(c, strtoi, 16)
+  return(c)
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Creating hash from country in airbnb</h2>
+						<pre><code class="r" data-line-numbers>
+arriendos_filtrados <- arriendos %>%
+  mutate(Country = extractCountry(host_location)) %>%
+  mutate(CountryHash = countryToHash(Country)) %>%
+  filter(!is.na(CountryHash)) %>%
+  filter(!is.na(Country))
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Creating hash from Country.of.birth.nationality in migrations</h2>
+						<pre><code class="r" data-line-numbers>
+migraciones_filtradas <- migraciones %>%
+  mutate(CountryHash = countryToHash(Country.of.birth.nationality)) %>%
+  filter(!is.na(CountryHash))
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Joining processed tables by hash</h2>
+						<pre><code class="r" data-line-numbers>
+migraciones_filtradas %>% 
+  inner_join(arriendos_filtrados, by=c("CountryHash" = "CountryHash"))
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Joined Result</h2>
+						<img width="40%" src="images/joined_result.png">
+						<ul style="font-size: 0.8em">
+							<li>108 + 14 - 1 = 121</li>
+							<ul>
+								<li>The column HASH is repeated</li>
+							</ul>
+							<li>observations: 8140 * 209371 = 1704279940 ≠ 561221</li>
+							<ul>
+								<li>Not all countries in airbnb are in migrations</li>
+								<li>Not all countries in migrations are in airbnb</li>
+								<li>Some observations are filtered by the inner_join</li>
+							</ul>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Question1</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question2</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question3</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question4</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question5</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question6</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question7</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question8</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question9</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Question10</h2>
+						<pre><code class="r" data-line-numbers>
+
+						</code></pre>
+					</section>
 
 				</section>
 

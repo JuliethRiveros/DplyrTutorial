@@ -4,7 +4,10 @@ migraciones <- read.csv("data/migrations.csv")
 
 # loading dplyr library
 library(dplyr)
-library(digest)
+
+#################################
+# First try joining tables
+#################################
 
 # We will join both tables using:
 # in arriendos: the host_location column
@@ -22,27 +25,17 @@ extractCountry <- function(l) {
   l <- sapply(l, trimws, USE.NAMES = FALSE)
   return(l)
 }
-countryToHash <- function(c) {
-  c <- sapply(c, digest, algo="xxhash32")
-  c <- sapply(c, strtoi, 16)
-  return(c)
-}
-arriendos_filtrados <- arriendos %>%
+
+arriendos_filtrados1 <- arriendos %>%
   mutate(Country = extractCountry(host_location)) %>%
-  mutate(CountryHash = countryToHash(Country)) %>%
-  filter(!is.na(CountryHash)) %>%
-  filter(!is.na(Country)) %>%
-  select(host_name, Country, CountryHash)
+  select(host_name, Country)
 
-# Now we have to transform the migrations database
-# to transform the column Country to a Hash list
+inner_join_arriendos_migraciones <- arriendos_filtrados1 %>%
+  inner_join(migraciones, by=c("Country"="Country.of.birth.nationality"))
+
 migraciones_filtradas <- migraciones %>%
-  filter(Year == 2017) %>%
-  mutate(CountryHash = countryToHash(Country)) %>%
-  filter(!is.na(CountryHash)) %>%
-  filter(!is.na(Country)) %>%
-  select(Country, CountryHash)
+  mutate(CountryList = as.list(sapply(migraciones$Country.of.birth.nationality, as.character)))
 
-# joining the databases
-inner_join_arriendos_migraciones <- migraciones_filtradas %>% 
-  inner_join(arriendos_filtrados, by=c("CountryHash" = "CountryHash"))
+inner_join_arriendos_migraciones_1 <- arriendos_filtrados1 %>%
+  inner_join(migraciones_filtradas, by=c("Country"="CountryList"))
+
