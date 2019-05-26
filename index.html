@@ -606,7 +606,7 @@ migraciones_filtradas %>%
 							<ul>
 								<li>The column HASH is repeated</li>
 							</ul>
-							<li>observations: 8140 * 209371 = 1704279940 ≠ 561221</li>
+							<li>observations: 561221</li>
 							<ul>
 								<li>Not all countries in airbnb are in migrations</li>
 								<li>Not all countries in migrations are in airbnb</li>
@@ -616,72 +616,139 @@ migraciones_filtradas %>%
 					</section>
 
 					<section>
-						<h2>Question1</h2>
+						<h2>Q1: How many listings are there from the countrys with more emigrations in 2016?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> migraciones_filtradas %>% 
++   filter(Year == 2016) %>%
++   filter(VAR == "B12") %>%
++   group_by(Country) %>%
++   summarise(n=n(), Pais=Country[1], Hash=CountryHash[1]) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n) %>%
++   inner_join(arriendos_filtrados, by=c("Hash"="CountryHash"))
+# A tibble: 0 x 111
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question2</h2>
+						<h2>Q2: How many countrys are in both tables?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   distinct(CountryHash) %>%
++   tally()
+   n
+1 27
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question3</h2>
+						<h2>Q3: Whats the country that appears the most in both tables joined?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(Country.x) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  Country.x     n
+1 Finland   27316
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question4</h2>
+						<h2>Q4: Whats the host_name that appears the most in both tables joined?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(host_name) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  host_name     n
+1 Valentina 40908
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question5</h2>
+						<h2>Q5: Whats the neighbourhood that appears the most in both tables joined?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(neighbourhood) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  neighbourhood      n
+1 Oud-West      100191
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question6</h2>
+						<h2>Q6: Whats the neighbourhood that appears the most in both tables joined?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(price) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  price       n
+1 $100.00 45327
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question7</h2>
+						<h2>Q7: How many emmigrations had the host_location with more beds in 2015?</h2>
 						<pre><code class="r" data-line-numbers>
-
+arriendos_filtrados %>%
+  arrange(desc(beds)) %>%
+  top_n(1, beds) %>%
+  select(CountryHash) %>%
+  distinct() %>%
+  inner_join(
+    migraciones_filtradas %>%
+    filter(Year == 2015) %>%
+    filter(VAR == "B11"),
+    by=c("CountryHash"="CountryHash")
+  )
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question8</h2>
+						<h2>Q8: How many immigrations had the country with more listings in airbnb amsterdam in 2014?</h2>
 						<pre><code class="r" data-line-numbers>
-
+arriendos_filtrados %>%
+  group_by(CountryHash) %>%
+  summarise(n=n()) %>%
+  top_n(1, n) %>%
+  inner_join(
+    migraciones_filtradas %>%
+      filter(VAR == "B12") %>%
+      filter(Year == 2014),
+      by=c("CountryHash"="CountryHash")
+  )
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question9</h2>
+						<h2>Q9: Whats the Var with more ocurrences in the joined table?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(VAR) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  VAR        n
+1 B11   106279
 						</code></pre>
 					</section>
 
 					<section>
-						<h2>Question10</h2>
+						<h2>Q10: Whats the Country of birth with more ocurrences in the joined table?</h2>
 						<pre><code class="r" data-line-numbers>
-
+> inner_join_arriendos_migraciones_2 %>%
++   group_by(Country.of.birth.nationality) %>%
++   summarise(n=n()) %>%
++   arrange(desc(n)) %>%
++   top_n(1, n)
+  Country.of.birth.nationality      n
+1 France                       120285
 						</code></pre>
 					</section>
 
